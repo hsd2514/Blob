@@ -1,51 +1,51 @@
-import { View, Text, Pressable, Image, StatusBar, StyleSheet } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity, Image, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function GettingStartedScreen() {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white" style={styles.container}>
       <StatusBar barStyle="dark-content" />
       
-      <View style={styles.content}>
+      <View className="flex-1 items-center justify-center px-8" style={styles.content}>
         {/* Logo */}
-        <View style={styles.logoContainer}>
+        <View className="mb-8" style={styles.logoContainer}>
           <Image
             source={require('../../assets/adaptive-icon.png')}
+            className="w-32 h-32"
             style={styles.logo}
             resizeMode="contain"
           />
         </View>
 
         {/* Title */}
-        <Text style={styles.title}>
+        <Text className="text-center text-4xl font-black text-slate-900 mb-4" style={styles.title}>
           Learn{'\n'}
-          <Text style={styles.titleAccent}>Smarter.</Text>
+          <Text className="text-orange-500" style={styles.titleHighlight}>Smarter.</Text>
         </Text>
         
         {/* Description */}
-        <Text style={styles.description}>
+        <Text className="text-center text-base text-slate-500 font-medium mb-10 px-6 leading-relaxed" style={styles.description}>
           The AI-powered companion that transforms your notes into interactive study tools.
         </Text>
 
         {/* Button */}
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            pressed && styles.buttonPressed
-          ]}
+        <TouchableOpacity
+          className="w-full h-14 bg-orange-500 rounded-full flex-row items-center justify-center active:opacity-90"
+          style={[styles.button, { zIndex: 999 }]}
+          activeOpacity={0.8}
           onPress={() => {
-            console.log('🔥 Button clicked!');
-            router.push('/(onboarding)/login');
+            console.log('Navigating to /login');
+            router.push('/login');
           }}
         >
-          <Text style={styles.buttonText}>Get Started</Text>
+          <Text className="text-white text-lg font-bold mr-2" style={styles.buttonText}>Get Started</Text>
           <Ionicons name="arrow-forward" size={20} color="white" />
-        </Pressable>
+        </TouchableOpacity>
 
         {/* Footer */}
-        <Text style={styles.footer}>
+        <Text className="text-center text-xs text-slate-400 font-medium mt-8" style={styles.footer}>
           Free and open source
         </Text>
       </View>
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 128,
+    height: 128,
   },
   title: {
     textAlign: 'center',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     lineHeight: 42,
   },
-  titleAccent: {
+  titleHighlight: {
     color: '#f97316',
   },
   description: {

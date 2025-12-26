@@ -1,66 +1,76 @@
-import { View, Text, Pressable, Image, StatusBar, StyleSheet } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity, Image, StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white" style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
       <StatusBar barStyle="dark-content" />
       
       {/* Back Button */}
-      <View style={styles.header}>
-        <Pressable 
+      <View className="px-4 pt-4" style={[styles.header, { zIndex: 10 }]}>
+        <TouchableOpacity 
           onPress={() => {
-            console.log('🔙 Back button pressed');
-            router.back();
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace('/(onboarding)/getting-started');
+            }
           }}
-          style={({ pressed }) => [
-            styles.backButton,
-            pressed && { opacity: 0.7 }
-          ]}
+          className="w-10 h-10 rounded-full bg-slate-50 items-center justify-center active:bg-slate-100"
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          style={[
+            styles.backButton,
+          ]}
+          activeOpacity={0.7}
         >
           <Ionicons name="arrow-back" size={24} color="#334155" />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.content}>
+      <View className="flex-1 items-center justify-center px-8 -mt-20" style={styles.content}>
         {/* Logo */}
-        <View style={styles.logoContainer}>
+        <View className="mb-8" style={styles.logoContainer}>
           <Image
             source={require('../../assets/adaptive-icon.png')}
+            className="w-20 h-20"
             style={styles.logo}
             resizeMode="contain"
           />
         </View>
 
         {/* Title */}
-        <Text style={styles.title}>Welcome Back</Text>
+        <Text className="text-3xl font-bold text-slate-900 mb-3 text-center" style={styles.title}>
+          Welcome Back
+        </Text>
         
         {/* Description */}
-        <Text style={styles.description}>
+        <Text className="text-center text-base text-slate-500 mb-10 px-6 leading-relaxed" style={styles.description}>
           Sign in to sync your progress and access your AI study tools.
         </Text>
 
         {/* Google Login Button */}
         <Pressable
+          className="w-full h-14 flex-row items-center justify-center bg-white border border-slate-200 rounded-xl active:bg-slate-50"
           style={({ pressed }) => [
             styles.googleButton,
-            pressed && styles.buttonPressed
+            pressed && styles.googleButtonPressed
           ]}
-          onPress={() => console.log('Google Login clicked')}
+          onPress={() => {}}
         >
           <Ionicons name="logo-google" size={22} color="#475569" style={{ marginRight: 12 }} />
-          <Text style={styles.googleButtonText}>Continue with Google</Text>
+          <Text className="text-base font-semibold text-slate-700 ml-3" style={styles.googleButtonText}>
+            Continue with Google
+          </Text>
         </Pressable>
 
         {/* Footer */}
-        <Text style={styles.footer}>
+        <Text className="text-center text-xs text-slate-400 mt-8 px-8 leading-5" style={styles.footer}>
           By continuing, you agree to our{' '}
-          <Text style={styles.footerLink}>Terms of Service</Text> and{' '}
-          <Text style={styles.footerLink}>Privacy Policy</Text>.
+          <Text className="text-slate-600 font-medium" style={styles.footerLink}>Terms of Service</Text> and{' '}
+          <Text className="text-slate-600 font-medium" style={styles.footerLink}>Privacy Policy</Text>.
         </Text>
       </View>
     </SafeAreaView>
@@ -83,6 +93,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fafc',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  backButtonPressed: {
+    backgroundColor: '#f1f5f9',
+    opacity: 0.7,
   },
   content: {
     flex: 1,
@@ -129,7 +143,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  buttonPressed: {
+  googleButtonPressed: {
+    backgroundColor: '#f8fafc',
     opacity: 0.9,
     transform: [{ scale: 0.98 }],
   },
